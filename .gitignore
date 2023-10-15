@@ -1,0 +1,12 @@
+# NetBeans
+nbproject/private/
+build/
+dist/
+nbbuild/
+nbdist/
+nbactions.xml
+nb-configuration.xml
+nb-ide-project.xml
+nb-filesystem.xml
+*.class
+

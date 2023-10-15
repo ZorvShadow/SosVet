@@ -10,10 +10,10 @@ import java.util.ArrayList;
  * @author García Velasco Rodrigo
  * @author Enríquez Pascual Ángel Gabriel
  * @author Gastélum Sánchez Ricardo
- * 
- * @grupo 3IM7
  * @version 0.0.1b
  */
+
+// grupo 3IM7
 
 public class SosVet {
     public static ArrayList<String[]> pacientes = new ArrayList<String[]>();

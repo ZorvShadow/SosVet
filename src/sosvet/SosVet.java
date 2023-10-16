@@ -1,11 +1,9 @@
 package sosvet;
 
+import java.util.ArrayList;
 import java.util.Scanner;
 
-import java.util.ArrayList;
-
 /**
- *
  * @author García Espino Enrique Román
  * @author García Velasco Rodrigo
  * @author Enríquez Pascual Ángel Gabriel
@@ -16,11 +14,11 @@ import java.util.ArrayList;
 // grupo 3IM7
 
 public class SosVet {
-    public static ArrayList<String[]> pacientes = new ArrayList<String[]>();
+    public static ArrayList<String[]> pacientes = new ArrayList<>();
     // Ejemplo de datos contenidos dentro del Array: {'nombre del cliente', 'nombre
     // del paciente', 'celular', 'raza', 'edad' }
 
-    public static ArrayList<String[]> citas = new ArrayList<String[]>();
+    public static ArrayList<String[]> citas = new ArrayList<>();
     // Ejemplo de datos contenidos dentro de Array: {'id paciente' ,'dia', 'hora'}
 
     public static void limpiarPantalla() {
@@ -35,19 +33,17 @@ public class SosVet {
     }
 
     /**
-     * 
      * @param id   El ID del paciente a asignar la cita
      * @param dia  El dia en formato DD/MM
      * @param hora La hora en formato HH:MM
      */
     public static void agendarCita(int id, String dia, String hora) {
         String idStr = "" + id;
-        String[] datos = { idStr, dia, hora };
+        String[] datos = {idStr, dia, hora};
         citas.add(datos);
     }
 
     /**
-     * 
      * @param indice El indice de la cita a eliminar
      */
     public static void eliminarCita(int indice) {
@@ -55,29 +51,26 @@ public class SosVet {
     }
 
     /**
-     * 
      * @param indice El indice de la cita a editar
      * @param dia    El dia en formato DD/MM
      * @param hora   La hora en formato HH:MM
      */
     public static void editarCita(int indice, String dia, String hora) {
-        String[] datos = { citas.get(indice)[0], dia, hora };
+        String[] datos = {citas.get(indice)[0], dia, hora};
         citas.set(indice, datos);
     }
 
     /**
-     * 
      * @param cliente  Nombre del cliente (dueño de la mascota)
      * @param paciente Nombre del paciente (mascota)
      * @param celular  Número celular del cliente
      * @param raza     Raza de la mascota
      * @param edad     Edad de la mascota
-     * 
      */
     public static void agregarPaciente(String cliente, String paciente, long celular, String raza, int edad) {
         String edadStr = "" + edad; // Se concatena una string vacia para que se convierta a string
         String numeroStr = "" + celular;
-        String[] datos = { cliente, paciente, numeroStr, raza, edadStr };
+        String[] datos = {cliente, paciente, numeroStr, raza, edadStr};
         pacientes.add(datos);
     }
 
@@ -88,12 +81,11 @@ public class SosVet {
      * @param celular  Número celular del cliente
      * @param raza     Raza de la mascota
      * @param edad     Edad de la mascota
-     * 
      */
     public static void editarPaciente(int id, String cliente, String paciente, long celular, String raza, int edad) {
         String edadStr = "" + edad; // Se concatena una string vacia para que se convierta a string
         String numeroStr = "" + celular;
-        String[] datos = { cliente, paciente, numeroStr, raza, edadStr };
+        String[] datos = {cliente, paciente, numeroStr, raza, edadStr};
 
         pacientes.set(id, datos);
     }
@@ -108,7 +100,7 @@ public class SosVet {
     /**
      * Pide un entero al usuario y lo repetirá hasta que se introduzca un número
      * válido
-     * 
+     *
      * @param mensaje El mensaje a mostrar sin salto de línea
      * @param min     El entero minimo o igual permitido
      * @param max     El entero maximo o igual permitido
@@ -141,7 +133,7 @@ public class SosVet {
     /**
      * Pide un long al usuario y lo repetirá hasta que se introduzca un número
      * válido
-     * 
+     *
      * @param mensaje El mensaje a mostrar sin salto de línea
      * @param min     El long minimo o igual permitido
      * @param max     El long maximo o igual permitido
@@ -174,7 +166,7 @@ public class SosVet {
     /**
      * Pide una cadena de texto al usuario y lo repetirá hasta que se introduzca una
      * cadena valida
-     * 
+     *
      * @param mensaje El mensaje a mostrar sin salto de línea
      * @return La cadena de texto no vacía
      */
@@ -188,7 +180,7 @@ public class SosVet {
             System.out.print(mensaje);
             inputString = scanner.nextLine();
 
-            valido = inputString.length() != 0;
+            valido = !inputString.isEmpty();
 
         }
 
@@ -254,7 +246,7 @@ public class SosVet {
     }
 
     public static void gestionProgramar() {
-        if (pacientes.size() == 0) {
+        if (pacientes.isEmpty()) {
             System.out.println("No hay pacientes para asignar citas");
             presionaContinuar();
             return;
@@ -284,7 +276,7 @@ public class SosVet {
     public static void eliminarCitaMenu() {
         System.out.println("---Información para eliminar---");
 
-        if (citas.size() == 0) {
+        if (citas.isEmpty()) {
             System.out.println("No existen citas");
             presionaContinuar();
             return;
@@ -312,7 +304,7 @@ public class SosVet {
     public static void editarCitaMenu() {
         System.out.println("--- Cambiar fecha / hora ---");
 
-        if (citas.size() == 0) {
+        if (citas.isEmpty()) {
             System.out.println("No existen citas");
             presionaContinuar();
             return;
@@ -381,7 +373,7 @@ public class SosVet {
     }
 
     private static void eliminarPacientesMenu() {
-        if (pacientes.size() == 0) {
+        if (pacientes.isEmpty()) {
             System.out.println("No hay pacientes para eliminar");
             presionaContinuar();
             return;
@@ -410,7 +402,7 @@ public class SosVet {
         String cliente = inputStringValidado("Ingresar nombre del cliente: ");
         String paciente = inputStringValidado("Ingresar nombre del paciente: ");
         long celular = inputLongValidado("Ingresar número de celular del cliente: ", 0,
-                99_99_99_99_99_99l);
+                99_99_99_99_99_99L);
         System.out.println("Ingresar datos del paciente: ");
         String raza = inputStringValidado("    Raza: ");
         int edad = inputIntValidado("    Edad: ", 0, 400);
@@ -427,7 +419,7 @@ public class SosVet {
     }
 
     public static void editarPacientesMenu() {
-        if (pacientes.size() == 0) {
+        if (pacientes.isEmpty()) {
             System.out.println("No hay pacientes para editar");
             presionaContinuar();
             return;
@@ -447,7 +439,7 @@ public class SosVet {
         String raza = pacientes.get(pacienteEditar)[3];
 
         long numero = inputLongValidado("  Número telefónico (prev. " + pacientes.get(pacienteEditar)[2] + "): ", 0,
-                99_99_99_99_99_99l);
+                99_99_99_99_99_99L);
         String cliente = inputStringValidado("  Nombre del cliente (prev. " + pacientes.get(pacienteEditar)[0] + "): ");
         int edad = inputIntValidado("  Edad del paciente (prev. " + pacientes.get(pacienteEditar)[4] + "): ", 0, 400);
 
@@ -463,7 +455,7 @@ public class SosVet {
     }
 
     public static void desplegarPacientes() {
-        if (pacientes.size() == 0) {
+        if (pacientes.isEmpty()) {
             System.out.println("No hay pacientes para desplegar");
             presionaContinuar();
             return;
@@ -486,7 +478,7 @@ public class SosVet {
 
     public static void desplegarResumen() {
         System.out.println("--- Desplegar resumen ---");
-        if (pacientes.size() == 0) {
+        if (pacientes.isEmpty()) {
             System.out.println("No hay pacientes para desplegar resumen");
             presionaContinuar();
             return;

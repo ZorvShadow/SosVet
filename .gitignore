@@ -10,3 +10,4 @@ nb-ide-project.xml
 nb-filesystem.xml
 *.class
 
+/out/

@@ -122,6 +122,7 @@ public class SosVet {
                 valido = numero <= max && numero >= min;
 
             } else {
+                System.out.println("Opción inválida");
                 scanner.next(); // Limpiar el buffer del Scanner
 
             }
@@ -155,6 +156,7 @@ public class SosVet {
                 valido = numero <= max && numero >= min;
 
             } else {
+                System.out.println("Opción invalida");
                 scanner.next(); // Limpiar el buffer del Scanner
 
             }
@@ -334,6 +336,7 @@ public class SosVet {
         while (activo) {
             int eleccion = 0;
             limpiarPantalla();
+
             System.out.println("----- Registro de Pacientes ------");
             System.out.println("  1) Registrar paciente nuevo");
             System.out.println("  2) Editar pacientes");
@@ -372,7 +375,7 @@ public class SosVet {
 
     }
 
-    private static void eliminarPacientesMenu() {
+    public static void eliminarPacientesMenu() {
         if (pacientes.isEmpty()) {
             System.out.println("No hay pacientes para eliminar");
             presionaContinuar();
@@ -516,6 +519,7 @@ public class SosVet {
     // Termina menú de pacientes
 
     public static void main(String[] args) {
+
         boolean activo = true;
         while (activo) {
 

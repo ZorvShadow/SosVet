@@ -21,6 +21,32 @@ public class SosVet {
     public static ArrayList<String[]> citas = new ArrayList<>();
     // Ejemplo de datos contenidos dentro de Array: {'id paciente' ,'dia', 'hora'}
 
+    public static String[][] slowSort(int index, ArrayList<String[]> arrayList) {
+        /* TODO: Documentar absolutamente todo lo que hace esto porque me lo generó ChatGPT.
+                 Checar si se puede convertir a entero antes de hacerlo y si no mandarlo al
+                 último.
+        */
+        String[][] toArr = arrayList.toArray(new String[arrayList.size()][]);
+
+        for (int i = 0; i < toArr.length; i++) {
+            for (int j = i + 1; j < toArr.length; j++) {
+                // Convierte las cadenas a números antes de comparar
+                int num1 = Integer.parseInt(toArr[i][index]);
+                int num2 = Integer.parseInt(toArr[j][index]);
+
+                // Compara los números para determinar el orden
+                if (num1 > num2) {
+                    // Intercambia las filas
+                    String[] temp = toArr[i];
+                    toArr[i] = toArr[j];
+                    toArr[j] = temp;
+                }
+            }
+        }
+        return toArr;
+    }
+
+
     public static void limpiarPantalla() {
         System.out.println("\033[H\033[2J");
         System.out.flush();
@@ -519,6 +545,27 @@ public class SosVet {
     // Termina menú de pacientes
 
     public static void main(String[] args) {
+        // Valores de prueba
+        pacientes.add(new String[]{"Cliente1", "Paciente1", "123456789", "Raza1", "5"});
+        pacientes.add(new String[]{"Cliente2", "Paciente2", "987654321", "Raza2", "3"});
+        pacientes.add(new String[]{"Cliente3", "Paciente3", "456789123", "Raza3", "7"});
+        pacientes.add(new String[]{"Cliente4", "Paciente4", "111222333", "Raza4", "2"});
+        pacientes.add(new String[]{"Cliente5", "Paciente5", "444555666", "Raza5", "6"});
+        pacientes.add(new String[]{"Cliente6", "Paciente6", "777888999", "Raza6", "4"});
+        pacientes.add(new String[]{"Cliente7", "Paciente7", "222333444", "Raza7", "8"});
+        pacientes.add(new String[]{"Cliente8", "Paciente8", "555666777", "Raza8", "1"});
+        pacientes.add(new String[]{"Cliente9", "Paciente9", "999000111", "Raza9", "9"});
+        pacientes.add(new String[]{"Cliente10", "Paciente10", "333444555", "Raza10", "5"});
+        pacientes.add(new String[]{"Cliente11", "Paciente11", "666777888", "Raza11", "3"});
+        pacientes.add(new String[]{"Cliente12", "Paciente12", "000111222", "Raza12", "7"});
+        pacientes.add(new String[]{"Cliente13", "Paciente13", "888999000", "Raza13", "2"});
+        pacientes.add(new String[]{"Cliente14", "Paciente14", "555444333", "Raza14", "6"});
+        pacientes.add(new String[]{"Cliente15", "Paciente15", "111222333", "Raza15", "4"});
+        pacientes.add(new String[]{"Cliente16", "Paciente16", "777888999", "Raza16", "8"});
+        pacientes.add(new String[]{"Cliente17", "Paciente17", "333444555", "Raza17", "1"});
+        pacientes.add(new String[]{"Cliente18", "Paciente18", "999000111", "Raza18", "9"});
+        pacientes.add(new String[]{"Cliente19", "Paciente19", "444555666", "Raza19", "5"});
+        pacientes.add(new String[]{"Cliente20", "Paciente20", "888999000", "Raza20", "3"});
 
         boolean activo = true;
         while (activo) {
@@ -549,6 +596,8 @@ public class SosVet {
 
             }
         }
+
+
     }
 
 }

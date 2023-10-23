@@ -10,8 +10,8 @@ import java.util.Scanner;
  * @author Gastélum Sánchez Ricardo
  * @version 0.0.1b
  */
+// Grupo:   3IM7
 
-// grupo 3IM7
 
 public class SosVet {
     public static ArrayList<String[]> pacientes = new ArrayList<>();

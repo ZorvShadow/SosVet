@@ -1,6 +1,7 @@
 package sosvet;
 
 import java.util.ArrayList;
+import java.util.Locale;
 import java.util.Scanner;
 
 /**
@@ -8,12 +9,11 @@ import java.util.Scanner;
  * @author García Velasco Rodrigo
  * @author Enríquez Pascual Ángel Gabriel
  * @author Gastélum Sánchez Ricardo
- * @version 0.0.1b
+ * @version 0.0.2a
  */
 // Grupo:   3IM7
-
-
 public class SosVet {
+
     public static ArrayList<String[]> pacientes = new ArrayList<>();
     // Ejemplo de datos contenidos dentro del Array: {'nombre del cliente', 'nombre
     // del paciente', 'celular', 'raza', 'edad', 'especie' }
@@ -33,9 +33,74 @@ public class SosVet {
     }
 
     /**
-     * @param id   El ID del paciente a asignar la cita
-     * @param dia  El dia en formato DD/MM
-     * @param hora La hora en formato HH:MM
+     * @param arr El arrayList a ordenar por edad
+     * @param creciente Si será creciente o decreciente
+     * @return Un nuevo arraylist ordenado con el id en indice 6
+     */
+    public static ArrayList<String[]> ordenarPrueba(ArrayList<String[]> arr, boolean creciente) {
+        int[][] edadesOrdenadas = new int[arr.size()][2];
+
+
+        for (int i = 0; i < arr.size(); i++) {
+            int edad = Integer.parseInt(arr.get(i)[4]);
+            edadesOrdenadas[i][1] = edad;
+            edadesOrdenadas[i][0] = i;
+
+        }
+
+        for (int i = 0; i < edadesOrdenadas.length; i++) {
+            for (int j = 0; j < edadesOrdenadas.length - 1; j++) {
+                int edad = edadesOrdenadas[j][1];
+                int edadSig = edadesOrdenadas[j + 1][1];
+
+                if (creciente) {
+                    if (edad > edadSig) edadesOrdenadas = swapIntArrays(j, j + 1, edadesOrdenadas);
+                } else {
+                    if (edad < edadSig) edadesOrdenadas = swapIntArrays(j, j + 1, edadesOrdenadas);
+                }
+
+
+            }
+
+
+        }
+
+        ArrayList<String[]> pacientesNuevos = new ArrayList<>();
+
+        System.out.printf("%4s %15s %10s \n", "ID", "Paciente", "Edad");
+        for (int i = 0; i < edadesOrdenadas.length; i++) {
+            pacientesNuevos.add(i, pacientes.get(edadesOrdenadas[i][0]));
+
+            System.out.printf("%4s %15s %10s \n", edadesOrdenadas[i][0], pacientesNuevos.get(i)[1], pacientesNuevos.get(i)[4]);
+        }
+        return pacientesNuevos;
+
+    }
+
+    /**
+     * @param index1 El primer elemento a swappear
+     * @param index2 El segundo elemento a swappear
+     * @param arr    El arreglo donde se hará el swapeo
+     * @return Nuevo arreglo con el cambio efectuado
+     */
+
+    public static int[][] swapIntArrays(int index1, int index2, int[][] arr) {
+        int[][] nuevoArr = arr;
+
+        int[] temp1 = arr[index1];
+        int[] temp2 = arr[index2];
+
+        nuevoArr[index1] = temp2;
+        nuevoArr[index2] = temp1;
+
+        return nuevoArr;
+    }
+
+    /**
+     * @param id          El ID del paciente a asignar la cita
+     * @param dia         El dia en formato DD/MM
+     * @param hora        La hora en formato HH:MM
+     * @param vetAsignado El nombre del Veteriniario asignado a la cita
      */
     public static void agendarCita(int id, String dia, String hora, String vetAsignado) {
         String idStr = "" + id;
@@ -81,6 +146,7 @@ public class SosVet {
      * @param celular  Número celular del cliente
      * @param raza     Raza de la mascota
      * @param edad     Edad de la mascota
+     * @param especie  La especie de la mascota
      */
     public static void editarPaciente(int id, String cliente, String paciente, long celular, String raza, int edad, String especie) {
         String edadStr = "" + edad; // Se concatena una string vacia para que se convierta a string
@@ -106,7 +172,6 @@ public class SosVet {
      * @param max     El entero maximo o igual permitido
      * @return El número entero validado
      */
-
     public static int inputIntValidado(String mensaje, int min, int max) {
         Scanner scanner = new Scanner(System.in);
 
@@ -140,7 +205,6 @@ public class SosVet {
      * @param max     El long maximo o igual permitido
      * @return El número long validado
      */
-
     public static long inputLongValidado(String mensaje, long min, long max) {
         Scanner scanner = new Scanner(System.in);
 
@@ -166,8 +230,8 @@ public class SosVet {
     }
 
     /**
-     * Pide una cadena de texto al usuario y lo repetirá hasta que se introduzca una
-     * cadena valida
+     * Pide una cadena de texto al usuario y lo repetirá hasta que se introduzca
+     * una cadena valida
      *
      * @param mensaje El mensaje a mostrar sin salto de línea
      * @return La cadena de texto no vacía
@@ -213,9 +277,7 @@ public class SosVet {
     }
 
     // Comienzan los procedimientos principales
-
     // Inicia menú de citas
-
     public static void menuGestion() {
         boolean activo = true;
         while (activo) {
@@ -332,7 +394,6 @@ public class SosVet {
     // Termina menú de citas
 
     // Inicia menú de pacientes
-
     public static void menuPacientes() {
         boolean activo = true;
 
@@ -346,9 +407,10 @@ public class SosVet {
             System.out.println("  3) Eliminar paciente");
             System.out.println("  4) Desplegar pacientes");
             System.out.println("  5) Desplegar resumen");
-            System.out.println("  6) Salir del Registro de Pacientes");
+            System.out.println("  6) Ordenar por criterio");
+            System.out.println("  7) Salir del Registro de Pacientes");
 
-            eleccion = inputIntValidado("Teclea la opción: ", 0, 6);
+            eleccion = inputIntValidado("Teclea la opción: ", 0, 7);
             limpiarPantalla();
 
             switch (eleccion) {
@@ -368,6 +430,9 @@ public class SosVet {
                     desplegarResumen();
                     break;
                 case 6:
+                    ordenarPorCriterio();
+                    break;
+                case 7:
                     activo = false;
                     break;
 
@@ -376,6 +441,26 @@ public class SosVet {
             }
         }
 
+    }
+
+    public static void ordenarPorCriterio() {
+        if (pacientes.isEmpty()) {
+            System.out.println("No hay pacientes para ordenar");
+            presionaContinuar();
+            return;
+        }
+
+        char eleccion = inputStringValidado("Criterios disponibles para ordenar Edad (E), Nombre (N): ").toLowerCase().charAt(0);
+        switch (eleccion){
+            case 'e':
+                char creciente = inputStringValidado("Deseas ordenar de menor a mayor (S/N): ").toLowerCase().charAt(0);
+
+                ordenarPrueba(pacientes, creciente == 's');
+                break;
+            case 'n':
+                System.out.println("Aún no está implementado :(");
+                break;
+        }
     }
 
     public static void eliminarPacientesMenu() {
@@ -393,9 +478,12 @@ public class SosVet {
         boolean confirmado = false;
 
         while (!confirmado) {
-            confirmado = inputStringValidado(
+            char eleccion =  inputStringValidado(
                     "Desea eliminar al paciente " + pacientes.get(pacienteEliminar)[1] + "? (S/N) ").toLowerCase()
-                    .charAt(0) == 's';
+                    .charAt(0);
+            if (eleccion == 'n') return;
+            else confirmado = true;
+
         }
         eliminarPaciente(pacienteEliminar);
         System.out.println("Paciente eliminado");
@@ -451,11 +539,9 @@ public class SosVet {
         String cliente = inputStringValidado("  Nombre del cliente (prev. " + pacientes.get(pacienteEditar)[0] + "): ");
         int edad = inputIntValidado("  Edad del paciente (prev. " + pacientes.get(pacienteEditar)[4] + "): ", 0, 400);
 
-
         editarPaciente(pacienteEditar, cliente, paciente, numero, raza, edad, especie);
 
         limpiarPantalla();
-
 
         System.out.printf("%15s %15s %15s %10s %15s %6s \n", "Cliente", "Paciente", "Celular",
                 "Raza", "Especie", "Edad");
@@ -529,8 +615,21 @@ public class SosVet {
     // Termina menú de pacientes
 
     public static void main(String[] args) {
+        agregarPaciente("1", null, 0, null, 5, null);
+        agregarPaciente("2", null, 0, null, 6, null);
+        agregarPaciente("3", null, 0, null, 7, null);
+        agregarPaciente("4", null, 0, null, 1, null);
+        agregarPaciente("5", null, 0, null, 8, null);
+        agregarPaciente("6", null, 0, null, 2, null);
+        agregarPaciente("7", null, 0, null, 4, null);
+        agregarPaciente("8", null, 0, null, 8, null);
+        agregarPaciente("9", null, 0, null, 6, null);
+        agregarPaciente("10", null, 0, null, 1, null);
 
         boolean activo = true;
+        ordenarPrueba(pacientes, false);
+        presionaContinuar();
+
         while (activo) {
 
             int eleccion = 0;
@@ -553,10 +652,9 @@ public class SosVet {
                     menuPacientes();
                     break;
                 case 3:
-                    System.out.println("Adios...");
+                    System.out.println("Adios... :(");
                     activo = false;
                     break;
-
             }
         }
     }

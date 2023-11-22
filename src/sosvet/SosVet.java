@@ -1,7 +1,6 @@
 package sosvet;
 
 import java.util.ArrayList;
-import java.util.Locale;
 import java.util.Scanner;
 
 /**
@@ -456,6 +455,7 @@ public class SosVet {
                 char creciente = inputStringValidado("Deseas ordenar de menor a mayor (S/N): ").toLowerCase().charAt(0);
 
                 ordenarPrueba(pacientes, creciente == 's');
+                presionaContinuar();
                 break;
             case 'n':
                 System.out.println("Aún no está implementado :(");
@@ -615,20 +615,22 @@ public class SosVet {
     // Termina menú de pacientes
 
     public static void main(String[] args) {
-        agregarPaciente("1", null, 0, null, 5, null);
-        agregarPaciente("2", null, 0, null, 6, null);
-        agregarPaciente("3", null, 0, null, 7, null);
-        agregarPaciente("4", null, 0, null, 1, null);
-        agregarPaciente("5", null, 0, null, 8, null);
-        agregarPaciente("6", null, 0, null, 2, null);
-        agregarPaciente("7", null, 0, null, 4, null);
-        agregarPaciente("8", null, 0, null, 8, null);
-        agregarPaciente("9", null, 0, null, 6, null);
-        agregarPaciente("10", null, 0, null, 1, null);
+        agregarPaciente("Pedro", "Max", 123456789, "Labrador", 5, "Perro");
+        agregarPaciente("Juan", "Bella", 987654321, "Siames", 6, "Gato");
+        agregarPaciente("Ricardo", "Rocky", 555555555, "Bulldog", 7, "Perro");
+        agregarPaciente("Rodrigo", "Luna", 123123123, "Persa", 1, "Gato");
+        agregarPaciente("Luna", "Charlie", 999888777, "Golden Retriever", 8, "Perro");
+        agregarPaciente("Juan 2", "Daisy", 111222333, "Maine Coon", 2, "Gato");
+        agregarPaciente("Pedro 2", "Leo", 444555666, "Poodle", 4, "Perro");
+        agregarPaciente("Ángel", "Mia", 777777777, "Ragdoll", 8, "Gato");
+        agregarPaciente("Juan 3", "Coco", 888777666, "Labrador", 6, "Perro");
+        agregarPaciente("Juan 4", "Oreo", 666777888, "Siames", 1, "Gato");
+        for (int i = 0; i < 200; i++) {
+            agregarPaciente("Juan" + (i+1), "Oreo " + (i+1), 666777888 + i, "Siames " + (i + 1), (int)(Math.random() * (20+i) ), "Gato");
+        }
+
 
         boolean activo = true;
-        ordenarPrueba(pacientes, false);
-        presionaContinuar();
 
         while (activo) {
 

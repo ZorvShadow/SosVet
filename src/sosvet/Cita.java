@@ -5,7 +5,16 @@ public class Cita {
     // Ejemplo de datos contenidos dentro de Array: {'id paciente' ,'dia', 'hora', 'veterinario asignado'}
     private Paciente paciente;
     private String dia;
+    private String hora;
     private String vetAsignado;
+
+    public String getHora() {
+        return hora;
+    }
+
+    public void setHora(String hora) {
+        this.hora = hora;
+    }
 
     public Paciente getPaciente() {
         return paciente;

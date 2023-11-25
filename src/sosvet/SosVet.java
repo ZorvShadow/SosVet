@@ -1,7 +1,6 @@
 package sosvet;
 
 import java.util.ArrayList;
-import java.util.Locale;
 import java.util.Scanner;
 
 /**
@@ -9,16 +8,16 @@ import java.util.Scanner;
  * @author García Velasco Rodrigo
  * @author Enríquez Pascual Ángel Gabriel
  * @author Gastélum Sánchez Ricardo
- * @version 0.0.2a
+ * @version 0.1.0
  */
 // Grupo:   3IM7
 public class SosVet {
 
-    public static ArrayList<String[]> pacientes = new ArrayList<>();
+    public static ArrayList<Paciente> pacientes = new ArrayList<>();
     // Ejemplo de datos contenidos dentro del Array: {'nombre del cliente', 'nombre
     // del paciente', 'celular', 'raza', 'edad', 'especie' }
 
-    public static ArrayList<String[]> citas = new ArrayList<>();
+    public static ArrayList<Cita> citas = new ArrayList<>();
     // Ejemplo de datos contenidos dentro de Array: {'id paciente' ,'dia', 'hora', 'veterinario asignado'}
 
     public static void limpiarPantalla() {
@@ -33,17 +32,18 @@ public class SosVet {
     }
 
     /**
-     * @param arr El arrayList a ordenar por edad
+     * @param arr       El arrayList a ordenar por edad
      * @param creciente Si será creciente o decreciente
-     * @return Un nuevo arraylist ordenado con el id en indice 6
+     * @return Un arreglo de los pacientes en el orden especificado
      */
-    public static ArrayList<String[]> ordenarPrueba(ArrayList<String[]> arr, boolean creciente) {
+    public static Paciente[] ordenarPrueba(ArrayList<Paciente> arr, boolean creciente) {
         int[][] edadesOrdenadas = new int[arr.size()][2];
-
+        // Se creara un arreglo del tamaño de pacientes x 2
+        // en el primer valor se guarda la edad,
+        // en el segundo valor se guarda el indice.
 
         for (int i = 0; i < arr.size(); i++) {
-            int edad = Integer.parseInt(arr.get(i)[4]);
-            edadesOrdenadas[i][1] = edad;
+            edadesOrdenadas[i][1] = arr.get(i).getEdad();
             edadesOrdenadas[i][0] = i;
 
         }
@@ -65,15 +65,17 @@ public class SosVet {
 
         }
 
-        ArrayList<String[]> pacientesNuevos = new ArrayList<>();
+        Paciente[] pacientesOrdenados = new Paciente[arr.size()];
 
         System.out.printf("%4s %15s %10s \n", "ID", "Paciente", "Edad");
         for (int i = 0; i < edadesOrdenadas.length; i++) {
-            pacientesNuevos.add(i, pacientes.get(edadesOrdenadas[i][0]));
+            pacientesOrdenados[i] = (pacientes.get(edadesOrdenadas[i][0]));
 
-            System.out.printf("%4s %15s %10s \n", edadesOrdenadas[i][0], pacientesNuevos.get(i)[1], pacientesNuevos.get(i)[4]);
+            System.out.printf("%4s %15s %10s \n", edadesOrdenadas[i][0],
+                    pacientesOrdenados[i].getNombreCliente(),
+                    pacientesOrdenados[i].getEdad());
         }
-        return pacientesNuevos;
+        return pacientesOrdenados;
 
     }
 
@@ -103,9 +105,13 @@ public class SosVet {
      * @param vetAsignado El nombre del Veteriniario asignado a la cita
      */
     public static void agendarCita(int id, String dia, String hora, String vetAsignado) {
-        String idStr = "" + id;
-        String[] datos = {idStr, dia, hora, vetAsignado};
-        citas.add(datos);
+        Cita citaNueva = new Cita();
+        citaNueva.setDia(dia);
+        citaNueva.setHora(hora);
+        citaNueva.setVetAsignado(vetAsignado);
+        citaNueva.setPaciente(pacientes.get(id));
+
+        citas.add(citaNueva);
     }
 
     /**
@@ -116,13 +122,19 @@ public class SosVet {
     }
 
     /**
-     * @param indice El indice de la cita a editar
-     * @param dia    El dia en formato DD/MM
-     * @param hora   La hora en formato HH:MM
+     * @param indice      El indice de la cita a editar
+     * @param dia         El dia en formato DD/MM
+     * @param hora        La hora en formato HH:MM
+     * @param vetAsignado El veterinario asignado
      */
-    public static void editarCita(int indice, String dia, String hora) {
-        String[] datos = {citas.get(indice)[0], dia, hora};
-        citas.set(indice, datos);
+    public static void editarCita(int indice, String dia, String hora, String vetAsignado) {
+        Cita citaEditada = citas.get(indice);
+        citaEditada.setDia(dia);
+        citaEditada.setHora(dia);
+        citaEditada.setVetAsignado(vetAsignado);
+
+        // citas.set(indice, citaEditada);
+        // No es necesario porque ChatGPT me dijo que solo es una referencia al objeto original.
     }
 
     /**
@@ -133,10 +145,15 @@ public class SosVet {
      * @param edad     Edad de la mascota
      */
     public static void agregarPaciente(String cliente, String paciente, long celular, String raza, int edad, String especie) {
-        String edadStr = "" + edad; // Se concatena una string vacia para que se convierta a string
-        String numeroStr = "" + celular;
-        String[] datos = {cliente, paciente, numeroStr, raza, edadStr, especie};
-        pacientes.add(datos);
+        Paciente pacienteNuevo = new Paciente();
+        pacienteNuevo.setCelular(celular);
+        pacienteNuevo.setEdad(edad);
+        pacienteNuevo.setEspecie(especie);
+        pacienteNuevo.setNombreCliente(cliente);
+        pacienteNuevo.setNombrePaciente(paciente);
+        pacienteNuevo.setRaza(raza);
+
+        pacientes.add(pacienteNuevo);
     }
 
     /**
@@ -149,11 +166,16 @@ public class SosVet {
      * @param especie  La especie de la mascota
      */
     public static void editarPaciente(int id, String cliente, String paciente, long celular, String raza, int edad, String especie) {
-        String edadStr = "" + edad; // Se concatena una string vacia para que se convierta a string
-        String numeroStr = "" + celular;
-        String[] datos = {cliente, paciente, numeroStr, raza, edadStr, especie};
+        Paciente pacienteEditado = pacientes.get(id);
+        pacienteEditado.setCelular(celular);
+        pacienteEditado.setEdad(edad);
+        pacienteEditado.setEspecie(especie);
+        pacienteEditado.setNombreCliente(cliente);
+        pacienteEditado.setNombrePaciente(paciente);
+        pacienteEditado.setRaza(raza);
 
-        pacientes.set(id, datos);
+        pacientes.set(id, pacienteEditado);
+        // No es necesario porque ChatGPT me dijo que solo es una referencia al objeto original.
     }
 
     /**
@@ -173,27 +195,28 @@ public class SosVet {
      * @return El número entero validado
      */
     public static int inputIntValidado(String mensaje, int min, int max) {
+        //eleccion = inputIntValidado("Teclea la opción: ", 0, 4); // ejemplo de uso:
         Scanner scanner = new Scanner(System.in);
 
         boolean valido = false;
-        int numero = 0;
-
+        int num = min - 1;
         while (!valido) {
             System.out.print(mensaje);
 
             if (scanner.hasNextInt()) {
-                numero = scanner.nextInt();
+                num = scanner.nextInt();
+                valido = num <= max && num >= min;
 
-                valido = numero <= max && numero >= min;
-
+                if (!valido) System.out.println("Respuesta inválida!!");
             } else {
-                System.out.println("Opción inválida");
-                scanner.next(); // Limpiar el buffer del Scanner
-
+                scanner.next();
+                System.out.println("Ingresa un número entero.");
             }
+
         }
 
-        return numero;
+        return num;
+
     }
 
     /**
@@ -209,24 +232,23 @@ public class SosVet {
         Scanner scanner = new Scanner(System.in);
 
         boolean valido = false;
-        long numero = 0;
-
+        long num = min - 1;
         while (!valido) {
             System.out.print(mensaje);
 
             if (scanner.hasNextLong()) {
-                numero = scanner.nextLong();
+                num = scanner.nextInt();
+                valido = num <= max && num >= min;
 
-                valido = numero <= max && numero >= min;
-
+                if (!valido) System.out.println("Respuesta inválida!!");
             } else {
-                System.out.println("Opción invalida");
-                scanner.next(); // Limpiar el buffer del Scanner
-
+                scanner.next();
+                System.out.println("Ingresa un número entero.");
             }
+
         }
 
-        return numero;
+        return num;
     }
 
     /**
@@ -257,7 +279,7 @@ public class SosVet {
         System.out.printf("%4s %15s \n", "ID", "Paciente");
 
         for (int i = 0; i < pacientes.size(); i++) {
-            System.out.printf("%4s %15s \n", i, pacientes.get(i)[1]);
+            System.out.printf("%4s %15s \n", i, pacientes.get(i).getNombrePaciente());
         }
     }
 
@@ -265,12 +287,18 @@ public class SosVet {
         System.out.printf("%15s %4s %5s %5s %15s\n", "Paciente", "ID", "Día", "Hora", "Veterinario asignado");
 
         for (int i = 0; i < citas.size(); i++) {
+            Cita cita = citas.get(i);
+            String pacienteNombre = cita.getPaciente().getNombrePaciente();
+            String dia = cita.getDia();
+            String hora = cita.getHora();
+            String vetAsignado = cita.getVetAsignado();
+
             System.out.printf("%15s %4s %5s %5s %15s\n",
-                    pacientes.get(Integer.parseInt(citas.get(i)[0]))[1],
+                    pacienteNombre,
                     i,
-                    citas.get(i)[1],
-                    citas.get(i)[2],
-                    citas.get(i)[3]
+                    dia,
+                    hora,
+                    vetAsignado
             );
 
         }
@@ -328,7 +356,7 @@ public class SosVet {
         String hora = inputStringValidado("Seleccionar una hora (HH:MM): ");
         String vetAsignado = inputStringValidado("Ingresa el veterinario asignado a la cita: ");
 
-        String nombrePaciente = pacientes.get(idPaciente)[1];
+        String nombrePaciente = pacientes.get(idPaciente).getNombrePaciente();
 
         limpiarPantalla();
 
@@ -381,11 +409,14 @@ public class SosVet {
         tablaCitas();
 
         int citaEditada = inputIntValidado("Teclea ID de cita a editar: ", 0, citas.size() - 1);
+        Cita cita = citas.get(citaEditada);
 
-        String dia = inputStringValidado("Seleccionar un día nuevo (prev. " + citas.get(citaEditada)[1] + "): ");
-        String hora = inputStringValidado("Seleccionar una hora nueva (prev. " + citas.get(citaEditada)[2] + "): ");
+        //TODO: Cambiar a printf
+        String dia = inputStringValidado("Seleccionar un día nuevo (prev. " + cita.getDia() + "): ");
+        String hora = inputStringValidado("Seleccionar una hora nueva (prev. " + cita.getHora() + "): ");
+        String vetAsignado = inputStringValidado("Seleccionar una veterinario nuevo (prev. " + cita.getVetAsignado() + "): ");
 
-        editarCita(citaEditada, dia, hora);
+        editarCita(citaEditada, dia, hora, vetAsignado);
 
         System.out.println("Cita Editada");
 
@@ -451,7 +482,7 @@ public class SosVet {
         }
 
         char eleccion = inputStringValidado("Criterios disponibles para ordenar Edad (E), Nombre (N): ").toLowerCase().charAt(0);
-        switch (eleccion){
+        switch (eleccion) {
             case 'e':
                 char creciente = inputStringValidado("Deseas ordenar de menor a mayor (S/N): ").toLowerCase().charAt(0);
 
@@ -478,8 +509,8 @@ public class SosVet {
         boolean confirmado = false;
 
         while (!confirmado) {
-            char eleccion =  inputStringValidado(
-                    "Desea eliminar al paciente " + pacientes.get(pacienteEliminar)[1] + "? (S/N) ").toLowerCase()
+            char eleccion = inputStringValidado(
+                    "Desea eliminar al paciente " + pacientes.get(pacienteEliminar).getNombrePaciente() + "? (S/N) ").toLowerCase()
                     .charAt(0);
             if (eleccion == 'n') return;
             else confirmado = true;
@@ -529,25 +560,22 @@ public class SosVet {
 
         System.out.println("Datos a editar: ");
 
-        // Datos que no cambiaran
-        String paciente = pacientes.get(pacienteEditar)[1];
-        String raza = pacientes.get(pacienteEditar)[3];
-        String especie = pacientes.get(pacienteEditar)[5];
+        Paciente paciente = pacientes.get(pacienteEditar);
 
-        long numero = inputLongValidado("  Número telefónico (prev. " + pacientes.get(pacienteEditar)[2] + "): ", 0,
+        long numero = inputLongValidado("  Número telefónico (prev. " + paciente.getCelular() + "): ", 0,
                 99_99_99_99_99_99L);
-        String cliente = inputStringValidado("  Nombre del cliente (prev. " + pacientes.get(pacienteEditar)[0] + "): ");
-        int edad = inputIntValidado("  Edad del paciente (prev. " + pacientes.get(pacienteEditar)[4] + "): ", 0, 400);
+        String cliente = inputStringValidado("  Nombre del cliente (prev. " + paciente.getNombreCliente() + "): ");
+        int edad = inputIntValidado("  Edad del paciente (prev. " + paciente.getEdad() + "): ", 0, 400);
 
-        editarPaciente(pacienteEditar, cliente, paciente, numero, raza, edad, especie);
+        editarPaciente(pacienteEditar, cliente, paciente.getNombrePaciente(), numero, paciente.getRaza(), edad, paciente.getEspecie());
 
         limpiarPantalla();
 
         System.out.printf("%15s %15s %15s %10s %15s %6s \n", "Cliente", "Paciente", "Celular",
                 "Raza", "Especie", "Edad");
 
-        System.out.printf("%15s %15s %15s %10s %15s %6s \n", cliente, paciente, numero, raza, especie,
-                edad);
+        System.out.printf("%15s %15s %15s %10s %15s %6s \n", cliente, paciente, numero, paciente.getRaza(),
+                paciente.getEspecie(), edad);
 
         presionaContinuar();
     }
@@ -564,12 +592,12 @@ public class SosVet {
 
         for (int i = 0; i < pacientes.size(); i++) {
             System.out.printf("%15s %15s %15s %10s %15s %6s \n",
-                    pacientes.get(i)[0],
-                    pacientes.get(i)[1],
-                    pacientes.get(i)[2],
-                    pacientes.get(i)[3],
-                    pacientes.get(i)[5],
-                    pacientes.get(i)[4]);
+                    pacientes.get(i).getNombreCliente(),
+                    pacientes.get(i).getNombrePaciente(),
+                    pacientes.get(i).getCelular(),
+                    pacientes.get(i).getRaza(),
+                    pacientes.get(i).getEspecie(),
+                    pacientes.get(i).getEdad());
         }
 
         presionaContinuar();
@@ -587,7 +615,7 @@ public class SosVet {
         tablaPacientes();
 
         int idPaciente = inputIntValidado("Ingresa la ID del paciente: ", 0, pacientes.size() - 1);
-
+        Paciente pacienteSeleccionado = pacientes.get(idPaciente);
         System.out.println();
 
         System.out.println("Sus citas previas y futuras son: ");
@@ -597,9 +625,10 @@ public class SosVet {
         boolean existenCitas = false;
 
         for (int i = 0; i < citas.size(); i++) {
-            int idCita = Integer.parseInt(citas.get(i)[0]);
-            if (idCita == idPaciente) {
-                System.out.printf("%4s %5s %5s\n", i, citas.get(i)[1], citas.get(i)[2]);
+            Paciente pacienteCitas = citas.get(i).getPaciente();
+
+            if (pacienteCitas.equals(pacienteSeleccionado)) {
+                System.out.printf("%4s %5s %5s\n", i, citas.get(i).getDia(), citas.get(i).getHora());
                 existenCitas = true;
             }
 

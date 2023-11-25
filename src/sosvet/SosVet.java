@@ -130,7 +130,7 @@ public class SosVet {
     public static void editarCita(int indice, String dia, String hora, String vetAsignado) {
         Cita citaEditada = citas.get(indice);
         citaEditada.setDia(dia);
-        citaEditada.setHora(dia);
+        citaEditada.setHora(hora);
         citaEditada.setVetAsignado(vetAsignado);
 
         // citas.set(indice, citaEditada);
@@ -309,7 +309,6 @@ public class SosVet {
     public static void menuGestion() {
         boolean activo = true;
         while (activo) {
-            int eleccion = 0;
             limpiarPantalla();
 
             System.out.println("----- Gestión de Citas ------");
@@ -318,7 +317,7 @@ public class SosVet {
             System.out.println("  3) Editar");
             System.out.println("  4) Salir de Gestión de Citas");
 
-            eleccion = inputIntValidado("Teclea la opción: ", 0, 4);
+            int eleccion = inputIntValidado("Teclea la opción: ", 0, 4);
             limpiarPantalla();
 
             switch (eleccion) {
@@ -429,7 +428,6 @@ public class SosVet {
         boolean activo = true;
 
         while (activo) {
-            int eleccion = 0;
             limpiarPantalla();
 
             System.out.println("----- Registro de Pacientes ------");
@@ -441,7 +439,7 @@ public class SosVet {
             System.out.println("  6) Ordenar por criterio");
             System.out.println("  7) Salir del Registro de Pacientes");
 
-            eleccion = inputIntValidado("Teclea la opción: ", 0, 7);
+            int eleccion = inputIntValidado("Teclea la opción: ", 0, 7);
             limpiarPantalla();
 
             switch (eleccion) {
@@ -644,25 +642,23 @@ public class SosVet {
     // Termina menú de pacientes
 
     public static void main(String[] args) {
-        agregarPaciente("1", null, 0, null, 5, null);
-        agregarPaciente("2", null, 0, null, 6, null);
-        agregarPaciente("3", null, 0, null, 7, null);
-        agregarPaciente("4", null, 0, null, 1, null);
-        agregarPaciente("5", null, 0, null, 8, null);
-        agregarPaciente("6", null, 0, null, 2, null);
-        agregarPaciente("7", null, 0, null, 4, null);
-        agregarPaciente("8", null, 0, null, 8, null);
-        agregarPaciente("9", null, 0, null, 6, null);
-        agregarPaciente("10", null, 0, null, 1, null);
+        agregarPaciente("Pedro", "Max", 123456789, "Labrador", 5, "Perro");
+        agregarPaciente("Juan", "Bella", 987654321, "Siames", 6, "Gato");
+        agregarPaciente("Ricardo", "Rocky", 555555555, "Bulldog", 7, "Perro");
+        agregarPaciente("Rodrigo", "Luna", 123123123, "Persa", 1, "Gato");
+        agregarPaciente("Luna", "Charlie", 999888777, "Golden Retriever", 8, "Perro");
+        agregarPaciente("Juan 2", "Daisy", 111222333, "Maine Coon", 2, "Gato");
+        agregarPaciente("Pedro 2", "Leo", 444555666, "Poodle", 4, "Perro");
+        agregarPaciente("Ángel", "Mia", 777777777, "Ragdoll", 8, "Gato");
+        agregarPaciente("Juan 3", "Coco", 888777666, "Labrador", 6, "Perro");
+        agregarPaciente("Juan 4", "Oreo", 666777888, "Siames", 1, "Gato");
+        for (int i = 0; i < 200; i++) {
+            agregarPaciente("Juan" + (i+1), "Oreo " + (i+1), 666777888 + i, "Siames " + (i + 1), (int)(Math.random() * (20+i) ), "Gato");
+        }
 
         boolean activo = true;
-        ordenarPrueba(pacientes, false);
-        presionaContinuar();
 
         while (activo) {
-
-            int eleccion = 0;
-
             limpiarPantalla();
 
             System.out.println("----- Principal ------");
@@ -670,7 +666,7 @@ public class SosVet {
             System.out.println("  2) Registro de Pacientes");
             System.out.println("  3) Salir");
 
-            eleccion = inputIntValidado("Teclea la opción: ", 1, 3);
+            int eleccion = inputIntValidado("Teclea la opción: ", 1, 3);
             limpiarPantalla();
 
             switch (eleccion) {

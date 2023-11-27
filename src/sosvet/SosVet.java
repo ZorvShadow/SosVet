@@ -10,37 +10,45 @@ import java.util.Scanner;
  * @author Gastélum Sánchez Ricardo
  * @version 0.0.3
  */
-// Grupo:   3IM7
+// Grupo: 3IM7
 public class SosVet {
-    /*  Un arraylist es una lista, eso significa que al contrario de los arreglos comunes,
-        es de tamaño variable.
-
-        Es decir, podemos tener un ArrayList con 2434242 elementos o con 2 elementos,
-        se pueden agregar, editar y eliminar elementos a conveniencia.
-    */
-
+    /*
+     * Un arraylist es una lista, eso significa que al contrario de los arreglos
+     * comunes,
+     * es de tamaño variable.
+     * 
+     * Es decir, podemos tener un ArrayList con 2434242 elementos o con 2 elementos,
+     * se pueden agregar, editar y eliminar elementos a conveniencia.
+     */
 
     public static ArrayList<String[]> pacientes = new ArrayList<>();
-    /*  Se crea un ArrayList para contener los pacientes, contendrá arreglos de Strings,
-        cada arreglo tendrá un largo de 6, y se guardaran los siguientes datos en orden:
-
-        {'nombre del cliente', 'nombre del paciente', 'celular', 'raza', 'edad', 'especie' }
-    */
-
+    /*
+     * Se crea un ArrayList para contener los pacientes, contendrá arreglos de
+     * Strings,
+     * cada arreglo tendrá un largo de 6, y se guardaran los siguientes datos en
+     * orden:
+     * 
+     * {'nombre del cliente', 'nombre del paciente', 'celular', 'raza', 'edad',
+     * 'especie' }
+     */
 
     public static ArrayList<String[]> citas = new ArrayList<>();
-    /*  Se crea un ArrayList para contener los pacientes, contendrá arreglos de Strings,
-        cada arreglo tendrá un largo de 4, y se guardaran los siguientes datos en orden:
-        {'id paciente' ,'dia', 'hora', 'veterinario asignado'}
-    */
-
+    /*
+     * Se crea un ArrayList para contener los pacientes, contendrá arreglos de
+     * Strings,
+     * cada arreglo tendrá un largo de 4, y se guardaran los siguientes datos en
+     * orden:
+     * {'id paciente' ,'dia', 'hora', 'veterinario asignado'}
+     */
 
     /**
-     * Imprime una secuencia de caracteres que limpia la pantalla. <br> <br>
+     * Imprime una secuencia de caracteres que limpia la pantalla. <br>
+     * <br>
      * NOTA: Solamente funciona con terminales que acepten el Código escape ANSI,
      * de lo contario se imprimira la secuencia sin ningún efecto. <br>
      *
-     * <a href="https://en.wikipedia.org/wiki/ANSI_escape_code#CSI_(Control_Sequence_Introducer)_sequences">
+     * <a href=
+     * "https://en.wikipedia.org/wiki/ANSI_escape_code#CSI_(Control_Sequence_Introducer)_sequences">
      * Tabla de valores de escape ANSI
      * </a>
      */
@@ -53,9 +61,12 @@ public class SosVet {
             }
         } else {
             System.out.println("\033[H\033[2J");
-            /*  El primer codigo de escape: [H, mueve el cursor hasta arriba a la izquierda.
-                El segundo, limpia la pantalla entera. */
-            System.out.flush(); //Se limpia el bufer de escritura de la consola.
+            /*
+             * El primer codigo de escape: [H, mueve el cursor hasta arriba a la izquierda.
+             * El segundo, limpia la pantalla entera.
+             */
+
+            System.out.flush(); // Se limpia el bufer de escritura de la consola.
         }
 
     }
@@ -77,7 +88,8 @@ public class SosVet {
         int[][] edadesOrdenadas = new int[arr.size()][2];
 
         for (int i = 0; i < arr.size(); i++) {
-            // Crea un arreglo donde se guarda el valor de la edad y el indice original en otro arreglo.
+            // Crea un arreglo donde se guarda el valor de la edad y el indice original en
+            // otro arreglo.
             // Estructura: { {indice1, edad1}, {indice2, edad2}, ...}
             int edad = Integer.parseInt(arr.get(i)[4]); // Se convierte la string a entero
 
@@ -88,57 +100,65 @@ public class SosVet {
 
         for (int i = 0; i < edadesOrdenadas.length; i++) {
             // Se inicia el ordenamiento lento o de burbuja
-            /* Según Wikipedia:
-                    Funciona revisando cada elemento de la lista que va a ser ordenada con el siguiente,
-                    intercambiándolos de posición si están en el orden equivocado. Es necesario revisar
-                    varias veces toda la lista hasta que no se necesiten más intercambios, lo cual
-                    significa que la lista está ordenada. Este algoritmo obtiene su nombre de la
-                    forma con la que suben por la lista los elementos durante los intercambios,
-                    como si fueran pequeñas «burbujas». También es conocido como el método del
-                    intercambio directo. Dado que solo usa comparaciones para operar elementos,
-                    se lo considera un algoritmo de comparación, siendo uno de los más sencillos
-                    de implementar.
-
-               Fuente: https://w.wiki/8HSF
+            /*
+             * Según Wikipedia:
+             * Funciona revisando cada elemento de la lista que va a ser ordenada con el
+             * siguiente,
+             * intercambiándolos de posición si están en el orden equivocado. Es necesario
+             * revisar
+             * varias veces toda la lista hasta que no se necesiten más intercambios, lo
+             * cual
+             * significa que la lista está ordenada. Este algoritmo obtiene su nombre de la
+             * forma con la que suben por la lista los elementos durante los intercambios,
+             * como si fueran pequeñas «burbujas». También es conocido como el método del
+             * intercambio directo. Dado que solo usa comparaciones para operar elementos,
+             * se lo considera un algoritmo de comparación, siendo uno de los más sencillos
+             * de implementar.
+             * 
+             * Fuente: https://w.wiki/8HSF
              */
 
-            // En resumen: Por cada elemento se checa si su elemento siguiente cumple el criterio, si si, lo cambia.
-            //             se repite hasta que está ordenado el arreglo completo.
+            // En resumen: Por cada elemento se checa si su elemento siguiente cumple el
+            // criterio, si si, lo cambia.
+            // se repite hasta que está ordenado el arreglo completo.
 
             for (int j = 0; j < edadesOrdenadas.length - 1; j++) {
                 int edad = edadesOrdenadas[j][1];
                 int edadSig = edadesOrdenadas[j + 1][1];
 
                 if (creciente) {
-                    if (edad > edadSig) edadesOrdenadas = swapIntArrays(j, j + 1, edadesOrdenadas);
+                    if (edad > edadSig)
+                        edadesOrdenadas = swapIntArrays(j, j + 1, edadesOrdenadas);
                 } else {
-                    if (edad < edadSig) edadesOrdenadas = swapIntArrays(j, j + 1, edadesOrdenadas);
+                    if (edad < edadSig)
+                        edadesOrdenadas = swapIntArrays(j, j + 1, edadesOrdenadas);
                 }
-
 
             }
 
-
         }
 
-        ArrayList<String[]> pacientesNuevos = new ArrayList<>();
-        /*  Se crea un nuevo ArrayList con la misma estructura que
-            el original de pacientes para guardar los datos ordenados.
-        */
+        String[][] pacientesNuevos = new String[arr.size()][6];
+        /*
+         * Se crea un nuevo ArrayList con la misma estructura que
+         * el original de pacientes para guardar los datos ordenados.
+         */
 
         System.out.printf("%4s %15s %10s \n", "ID", "Paciente", "Edad");
         for (int i = 0; i < edadesOrdenadas.length; i++) {
-            pacientesNuevos.add(pacientes.get(edadesOrdenadas[i][0]));
+            pacientesNuevos[i] = (pacientes.get(edadesOrdenadas[i][0]));
             // Se añaden los valores ordenados
 
             // Se imprime la ID original, el nombre y la edad.
-            System.out.printf("%4s %15s %10s \n", edadesOrdenadas[i][0], pacientesNuevos.get(i)[1], pacientesNuevos.get(i)[4]);
+            System.out.printf("%4s %15s %10s \n", edadesOrdenadas[i][0], pacientesNuevos[1],
+                    pacientesNuevos[4]);
         }
 
     }
 
     /**
-     * Intercambia dos valores en los indices especificados dentro de arreglos de dos dimensiones
+     * Intercambia dos valores en los indices especificados dentro de arreglos de
+     * dos dimensiones
      *
      * @param index1 El primer elemento a intercambiar
      * @param index2 El segundo elemento a intercambiar
@@ -164,8 +184,8 @@ public class SosVet {
      * @param vetAsignado El nombre del Veteriniario asignado a la cita
      */
     public static void agendarCita(int id, String dia, String hora, String vetAsignado) {
-        String idStr = "" + id;
-        String[] datos = {idStr, dia, hora, vetAsignado};
+        String idStr = "" + id; // Convierte el entero en una cadena.
+        String[] datos = { idStr, dia, hora, vetAsignado };
         citas.add(datos);
     }
 
@@ -183,7 +203,7 @@ public class SosVet {
      * @param veterinarioAsignado El veterinario asignado a la cita
      */
     public static void editarCita(int indice, String dia, String hora, String veterinarioAsignado) {
-        String[] datos = {citas.get(indice)[0], dia, hora, veterinarioAsignado};
+        String[] datos = { citas.get(indice)[0], dia, hora, veterinarioAsignado };
         citas.set(indice, datos);
     }
 
@@ -195,10 +215,11 @@ public class SosVet {
      * @param edad     Edad de la mascota
      * @param especie  La especie de la mascota.
      */
-    public static void agregarPaciente(String cliente, String paciente, long celular, String raza, int edad, String especie) {
+    public static void agregarPaciente(String cliente, String paciente, long celular, String raza, int edad,
+            String especie) {
         String edadStr = "" + edad; // Se concatena una string vacia para que se convierta a string
         String numeroStr = "" + celular;
-        String[] datos = {cliente, paciente, numeroStr, raza, edadStr, especie};
+        String[] datos = { cliente, paciente, numeroStr, raza, edadStr, especie };
         pacientes.add(datos);
     }
 
@@ -211,10 +232,11 @@ public class SosVet {
      * @param edad     Edad de la mascota
      * @param especie  La especie de la mascota
      */
-    public static void editarPaciente(int id, String cliente, String paciente, long celular, String raza, int edad, String especie) {
+    public static void editarPaciente(int id, String cliente, String paciente, long celular, String raza, int edad,
+            String especie) {
         String edadStr = "" + edad; // Se concatena una string vacia para que se convierta a string
         String numeroStr = "" + celular;
-        String[] datos = {cliente, paciente, numeroStr, raza, edadStr, especie};
+        String[] datos = { cliente, paciente, numeroStr, raza, edadStr, especie };
 
         pacientes.set(id, datos);
     }
@@ -236,7 +258,7 @@ public class SosVet {
      * @return El número entero validado
      */
     public static int inputIntValidado(String mensaje, int min, int max) {
-        //eleccion = inputIntValidado("Teclea la opción: ", 0, 4); // ejemplo de uso:
+        // eleccion = inputIntValidado("Teclea la opción: ", 0, 4); // ejemplo de uso:
         Scanner scanner = new Scanner(System.in);
 
         boolean valido = false;
@@ -248,7 +270,8 @@ public class SosVet {
                 num = scanner.nextInt();
                 valido = num <= max && num >= min;
 
-                if (!valido) System.out.println("Respuesta inválida!!");
+                if (!valido)
+                    System.out.println("Respuesta inválida!!");
             } else {
                 scanner.next();
                 System.out.println("Ingresa un número entero.");
@@ -281,7 +304,8 @@ public class SosVet {
                 num = scanner.nextLong();
                 valido = num <= max && num >= min;
 
-                if (!valido) System.out.println("Respuesta inválida!!");
+                if (!valido)
+                    System.out.println("Respuesta inválida!!");
             } else {
                 scanner.next();
                 System.out.println("Ingresa un número entero.");
@@ -339,8 +363,7 @@ public class SosVet {
                     i,
                     citas.get(i)[1],
                     citas.get(i)[2],
-                    citas.get(i)[3]
-            );
+                    citas.get(i)[3]);
 
         }
     }
@@ -393,22 +416,23 @@ public class SosVet {
 
         int idPaciente = inputIntValidado("Id del Paciente: ", 0, pacientes.size() - 1);
 
-
         int dia = inputIntValidado("Selecciona un día del mes (DD): ", 1, 31);
         int mes = inputIntValidado("Selecciona un mes númerico (MM): ", 1, 31);
         int año = inputIntValidado("Selecciona un año (AAAA) : ", 2023, 3000);
         String fecha = dia + "/" + mes + "/" + año;
 
+        int hora = inputIntValidado("Ingresa la hora en formato de 24 horas (HH): ", 0, 24);
+        int minutos = inputIntValidado("Ingresa los minutos (MM): ", 0, 59);
 
-        String hora = inputStringValidado("Seleccionar una hora (HH:MM): ");
+        String horaString = hora + ":" + minutos;
+
         String vetAsignado = inputStringValidado("Ingresa el veterinario asignado a la cita: ");
 
         String nombrePaciente = pacientes.get(idPaciente)[1];
 
         limpiarPantalla();
 
-
-        agendarCita(idPaciente, fecha, hora, vetAsignado);
+        agendarCita(idPaciente, fecha, horaString, vetAsignado);
         System.out.printf("%10s %5s %5s\n", "Nombre", "Día", "Hora");
         System.out.printf("%10s %5s %5s\n", nombrePaciente, fecha, hora);
 
@@ -437,7 +461,8 @@ public class SosVet {
             char opcion = inputStringValidado(
                     "Desea la cita con id " + citaEliminada + "? (S/N) ").toLowerCase()
                     .charAt(0);
-            if (opcion == 'n') return;
+            if (opcion == 'n')
+                return;
             confirmado = opcion == 's';
         }
         eliminarCita(citaEliminada);
@@ -467,11 +492,16 @@ public class SosVet {
         int año = inputIntValidado("Selecciona un año (AAAA) : ", 2023, 3000);
         String fecha = dia + "/" + mes + "/" + año;
 
-        String hora = inputStringValidado("Seleccionar una hora nueva (prev. " + citas.get(citaEditada)[2] + "): ");
+        System.out.println("Seleccionar una hora nueva (prev. " + citas.get(citaEditada)[2] + "): ");
+        int hora = inputIntValidado("Ingresa la hora en formato de 24 horas (HH): ", 0, 24);
+        int minutos = inputIntValidado("Ingresa los minutos (MM): ", 0, 59);
+
+        String horaString = hora + ":" + minutos;
+
         System.out.printf("Selecciona un veterinario asignado nuevo (prev. %s): ", citas.get(citaEditada)[3]);
         String vet = inputStringValidado("");
 
-        editarCita(citaEditada, fecha, hora, vet);
+        editarCita(citaEditada, fecha, horaString, vet);
 
         System.out.println("Cita Editada");
 
@@ -535,7 +565,8 @@ public class SosVet {
             return;
         }
 
-        char eleccion = inputStringValidado("Criterios disponibles para ordenar Edad (E), Nombre (N): ").toLowerCase().charAt(0);
+        char eleccion = inputStringValidado("Criterios disponibles para ordenar Edad (E), Nombre (N): ").toLowerCase()
+                .charAt(0);
         switch (eleccion) {
             case 'e':
                 char creciente = inputStringValidado("Deseas ordenar de menor a mayor (S/N): ").toLowerCase().charAt(0);
@@ -567,8 +598,10 @@ public class SosVet {
             char eleccion = inputStringValidado(
                     "Desea eliminar al paciente " + pacientes.get(pacienteEliminar)[1] + "? (S/N) ").toLowerCase()
                     .charAt(0);
-            if (eleccion == 'n') return;
-            else confirmado = true;
+            if (eleccion == 'n')
+                return;
+            else
+                confirmado = true;
 
         }
         eliminarPaciente(pacienteEliminar);
@@ -702,7 +735,6 @@ public class SosVet {
 
     public static void main(String[] args) {
 
-
         // Valores de prueba
         agregarPaciente("Pedro", "Max", 66_6777_8888L, "Labrador", 5, "Perro");
         agregarPaciente("Juan", "Bella", 66_6777_8888L, "Siames", 6, "Gato");
@@ -714,7 +746,6 @@ public class SosVet {
         agregarPaciente("Ángel", "Mia", 66_6777_8888L, "Ragdoll", 8, "Gato");
         agregarPaciente("Juan 3", "Coco", 66_6777_8888L, "Labrador", 6, "Perro");
         agregarPaciente("Juan 4", "Oreo", 66_6777_8888L, "Siames", 1, "Gato");
-
 
         boolean activo = true;
 
@@ -738,7 +769,7 @@ public class SosVet {
                     break;
                 case 3:
                     String gato = "\u001B[101m \u001B[96m";
-                    //Codigos de escape para poner el fondo en rojo brillante y las letras en cian
+                    // Codigos de escape para poner el fondo en rojo brillante y las letras en cian
                     for (int i = 0; i < 50; i++) {
                         // Agregamos 400 lineas blancas con el fondo para que se vea el fondo.
                         gato += "\n";

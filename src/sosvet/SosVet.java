@@ -14,11 +14,8 @@ import java.util.Scanner;
 public class SosVet {
 
     public static ArrayList<Paciente> pacientes = new ArrayList<>();
-    // Ejemplo de datos contenidos dentro del Array: {'nombre del cliente', 'nombre
-    // del paciente', 'celular', 'raza', 'edad', 'especie' }
 
     public static ArrayList<Cita> citas = new ArrayList<>();
-    // Ejemplo de datos contenidos dentro de Array: {'id paciente' ,'dia', 'hora', 'veterinario asignado'}
 
     public static void limpiarPantalla() {
         System.out.println("\033[H\033[2J");
@@ -47,6 +44,7 @@ public class SosVet {
             edadesOrdenadas[i][0] = i;
 
         }
+        // TODO: Implementar un algoritmo de ordenamiento más eficiente.
 
         for (int i = 0; i < edadesOrdenadas.length; i++) {
             for (int j = 0; j < edadesOrdenadas.length - 1; j++) {
@@ -58,22 +56,12 @@ public class SosVet {
                 } else {
                     if (edad < edadSig) edadesOrdenadas = swapIntArrays(j, j + 1, edadesOrdenadas);
                 }
-
-
             }
-
-
         }
 
         Paciente[] pacientesOrdenados = new Paciente[arr.size()];
-
-        System.out.printf("%4s %15s %10s \n", "ID", "Paciente", "Edad");
         for (int i = 0; i < edadesOrdenadas.length; i++) {
             pacientesOrdenados[i] = (pacientes.get(edadesOrdenadas[i][0]));
-
-            System.out.printf("%4s %15s %10s \n", edadesOrdenadas[i][0],
-                    pacientesOrdenados[i].getNombreCliente(),
-                    pacientesOrdenados[i].getEdad());
         }
         return pacientesOrdenados;
 
@@ -183,6 +171,25 @@ public class SosVet {
      */
     public static void eliminarPaciente(int id) {
         pacientes.remove(id);
+    }
+
+    public static Cita[] getCitasPaciente(Paciente paciente) {
+        Cita[] citasPaciente = new Cita[citas.size()];
+        int lastIndex = 0;
+
+        for (int i = 0; i < citas.size(); i++) {
+            if (citas.get(i).getPaciente().equals(paciente)) {
+                citasPaciente[lastIndex] = citas.get(i);
+                lastIndex++;
+            }
+        }
+        Cita[] citasArr = new Cita[lastIndex];
+        //Acortar el arreglo
+        for (int i = 0; i < lastIndex; i++) {
+            citasArr[i] = citasPaciente[i];
+        }
+
+        return citasArr;
     }
 
     /**
@@ -484,7 +491,13 @@ public class SosVet {
             case 'e':
                 char creciente = inputStringValidado("Deseas ordenar de menor a mayor (S/N): ").toLowerCase().charAt(0);
 
-                ordenarPrueba(pacientes, creciente == 's');
+                Paciente[] ordenados = ordenarPrueba(pacientes, creciente == 's');
+                System.out.printf("%4s %15s %5s \n", "ID", "Paciente", "Edad");
+
+                for (int i = 0; i < ordenados.length; i++) {
+                    System.out.printf("%4d %15s %5d \n", i, ordenados[i].getNombrePaciente(), ordenados[i].getEdad());
+                }
+                presionaContinuar();
                 break;
             case 'n':
                 System.out.println("Aún no está implementado :(");
@@ -616,23 +629,13 @@ public class SosVet {
         Paciente pacienteSeleccionado = pacientes.get(idPaciente);
         System.out.println();
 
-        System.out.println("Sus citas previas y futuras son: ");
-
-        System.out.printf("%4s %5s %5s\n", "ID", "Día", "Hora");
-
-        boolean existenCitas = false;
-
-        for (int i = 0; i < citas.size(); i++) {
-            Paciente pacienteCitas = citas.get(i).getPaciente();
-
-            if (pacienteCitas.equals(pacienteSeleccionado)) {
-                System.out.printf("%4s %5s %5s\n", i, citas.get(i).getDia(), citas.get(i).getHora());
-                existenCitas = true;
+        Cita[] citasPaciente = getCitasPaciente(pacienteSeleccionado);
+        if (citasPaciente.length != 0) {
+            System.out.printf("%-4s %-5s %-5s %-10s\n", "ID", "Dia", "Hora", "Vet. Asig.");
+            for (int i = 0; i < citasPaciente.length; i++) {
+                System.out.printf("%-4s %-5s %-5s %-10s\n", i, citasPaciente[i].getDia(), citasPaciente[i].getHora(), citasPaciente[i].getVetAsignado());
             }
-
-        }
-
-        if (!existenCitas) {
+        } else {
             System.out.println("No hay citas con el paciente :(");
         }
 
@@ -652,8 +655,11 @@ public class SosVet {
         agregarPaciente("Ángel", "Mia", 777777777, "Ragdoll", 8, "Gato");
         agregarPaciente("Juan 3", "Coco", 888777666, "Labrador", 6, "Perro");
         agregarPaciente("Juan 4", "Oreo", 666777888, "Siames", 1, "Gato");
-        for (int i = 0; i < 200; i++) {
-            agregarPaciente("Juan" + (i+1), "Oreo " + (i+1), 666777888 + i, "Siames " + (i + 1), (int)(Math.random() * (20+i) ), "Gato");
+
+        for (int i = 0; i < pacientes.size(); i++) {
+            for (int j = 0; j < 5; j++) {
+                agendarCita(i, "dd/mm", "hh:mm", "Veterinario 1");
+            }
         }
 
         boolean activo = true;

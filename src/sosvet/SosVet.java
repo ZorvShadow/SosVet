@@ -32,22 +32,44 @@ public class SosVet {
     }
 
     /**
-     * @param arr El arrayList a ordenar por edad
+     * Recibe un Arraylist con la misma estructura que el de pacientes.
+     *
+     * @param arr       El arrayList a ordenar por edad
      * @param creciente Si será creciente o decreciente
-     * @return Un nuevo arraylist ordenado con el id en indice 6
+     * @author García Espino Enrique Román
      */
-    public static ArrayList<String[]> ordenarPrueba(ArrayList<String[]> arr, boolean creciente) {
+    public static void ordenarBurbuja(ArrayList<String[]> arr, boolean creciente) {
         int[][] edadesOrdenadas = new int[arr.size()][2];
 
-
         for (int i = 0; i < arr.size(); i++) {
-            int edad = Integer.parseInt(arr.get(i)[4]);
-            edadesOrdenadas[i][1] = edad;
+            // Crea un arreglo donde se guarda el valor de la edad y el indice original en otro arreglo.
+            // Estructura: { {indice1, edad1}, {indice2, edad2}, ...}
+            int edad = Integer.parseInt(arr.get(i)[4]); // Se convierte la string a entero
+
             edadesOrdenadas[i][0] = i;
+            edadesOrdenadas[i][1] = edad;
 
         }
 
         for (int i = 0; i < edadesOrdenadas.length; i++) {
+            // Se inicia el ordenamiento lento o de burbuja
+            /* Según Wikipedia:
+                    Funciona revisando cada elemento de la lista que va a ser ordenada con el siguiente,
+                    intercambiándolos de posición si están en el orden equivocado. Es necesario revisar
+                    varias veces toda la lista hasta que no se necesiten más intercambios, lo cual
+                    significa que la lista está ordenada. Este algoritmo obtiene su nombre de la
+                    forma con la que suben por la lista los elementos durante los intercambios,
+                    como si fueran pequeñas «burbujas». También es conocido como el método del
+                    intercambio directo. Dado que solo usa comparaciones para operar elementos,
+                    se lo considera un algoritmo de comparación, siendo uno de los más sencillos
+                    de implementar.
+
+               Fuente: https://w.wiki/8HSF
+             */
+
+            // En resumen: Por cada elemento se checa si su elemento siguiente cumple el criterio, si si, lo cambia.
+            //             se repite hasta que está ordenado el arreglo completo.
+
             for (int j = 0; j < edadesOrdenadas.length - 1; j++) {
                 int edad = edadesOrdenadas[j][1];
                 int edadSig = edadesOrdenadas[j + 1][1];
@@ -72,11 +94,12 @@ public class SosVet {
 
             System.out.printf("%4s %15s %10s \n", edadesOrdenadas[i][0], pacientesNuevos.get(i)[1], pacientesNuevos.get(i)[4]);
         }
-        return pacientesNuevos;
 
     }
 
     /**
+     * Intercambia dos valores en los indices especificados dentro de arreglos de dos dimensiones
+     *
      * @param index1 El primer elemento a swappear
      * @param index2 El segundo elemento a swappear
      * @param arr    El arreglo donde se hará el swapeo
@@ -115,12 +138,13 @@ public class SosVet {
     }
 
     /**
-     * @param indice El indice de la cita a editar
-     * @param dia    El dia en formato DD/MM
-     * @param hora   La hora en formato HH:MM
+     * @param indice              El indice de la cita a editar
+     * @param dia                 El dia en formato DD/MM
+     * @param hora                La hora en formato HH:MM
+     * @param veterinarioAsignado El veterinario asignado a la cita
      */
-    public static void editarCita(int indice, String dia, String hora) {
-        String[] datos = {citas.get(indice)[0], dia, hora};
+    public static void editarCita(int indice, String dia, String hora, String veterinarioAsignado) {
+        String[] datos = {citas.get(indice)[0], dia, hora, veterinarioAsignado};
         citas.set(indice, datos);
     }
 
@@ -172,27 +196,28 @@ public class SosVet {
      * @return El número entero validado
      */
     public static int inputIntValidado(String mensaje, int min, int max) {
+        //eleccion = inputIntValidado("Teclea la opción: ", 0, 4); // ejemplo de uso:
         Scanner scanner = new Scanner(System.in);
 
         boolean valido = false;
-        int numero = 0;
-
+        int num = min - 1;
         while (!valido) {
             System.out.print(mensaje);
 
             if (scanner.hasNextInt()) {
-                numero = scanner.nextInt();
+                num = scanner.nextInt();
+                valido = num <= max && num >= min;
 
-                valido = numero <= max && numero >= min;
-
+                if (!valido) System.out.println("Respuesta inválida!!");
             } else {
-                System.out.println("Opción inválida");
-                scanner.next(); // Limpiar el buffer del Scanner
-
+                scanner.next();
+                System.out.println("Ingresa un número entero.");
             }
+
         }
 
-        return numero;
+        return num;
+
     }
 
     /**
@@ -208,24 +233,23 @@ public class SosVet {
         Scanner scanner = new Scanner(System.in);
 
         boolean valido = false;
-        long numero = 0;
-
+        long num = min - 1;
         while (!valido) {
             System.out.print(mensaje);
 
             if (scanner.hasNextLong()) {
-                numero = scanner.nextLong();
+                num = scanner.nextLong();
+                valido = num <= max && num >= min;
 
-                valido = numero <= max && numero >= min;
-
+                if (!valido) System.out.println("Respuesta inválida!!");
             } else {
-                System.out.println("Opción invalida");
-                scanner.next(); // Limpiar el buffer del Scanner
-
+                scanner.next();
+                System.out.println("Ingresa un número entero.");
             }
+
         }
 
-        return numero;
+        return num;
     }
 
     /**
@@ -252,6 +276,9 @@ public class SosVet {
         return inputString;
     }
 
+    /**
+     * Imprime la tabla de pacientes, con la id y el nombre
+     */
     public static void tablaPacientes() {
         System.out.printf("%4s %15s \n", "ID", "Paciente");
 
@@ -260,6 +287,9 @@ public class SosVet {
         }
     }
 
+    /**
+     * Imprime la tabla de citas, con el paciente, id, dia, hora y vet. asignado.
+     */
     public static void tablaCitas() {
         System.out.printf("%15s %4s %5s %5s %15s\n", "Paciente", "ID", "Día", "Hora", "Veterinario asignado");
 
@@ -280,7 +310,6 @@ public class SosVet {
     public static void menuGestion() {
         boolean activo = true;
         while (activo) {
-            int eleccion = 0;
             limpiarPantalla();
 
             System.out.println("----- Gestión de Citas ------");
@@ -289,7 +318,7 @@ public class SosVet {
             System.out.println("  3) Editar");
             System.out.println("  4) Salir de Gestión de Citas");
 
-            eleccion = inputIntValidado("Teclea la opción: ", 0, 4);
+            int eleccion = inputIntValidado("Teclea la opción: ", 0, 4);
             limpiarPantalla();
 
             switch (eleccion) {
@@ -357,12 +386,14 @@ public class SosVet {
         boolean confirmado = false;
 
         while (!confirmado) {
-            confirmado = inputStringValidado(
+            char opcion = inputStringValidado(
                     "Desea la cita con id " + citaEliminada + "? (S/N) ").toLowerCase()
-                    .charAt(0) == 's';
+                    .charAt(0);
+            if (opcion == 'n') return;
+            confirmado = opcion == 's';
         }
-
         eliminarCita(citaEliminada);
+
         System.out.println("Cita eliminada");
         presionaContinuar();
     }
@@ -383,8 +414,10 @@ public class SosVet {
 
         String dia = inputStringValidado("Seleccionar un día nuevo (prev. " + citas.get(citaEditada)[1] + "): ");
         String hora = inputStringValidado("Seleccionar una hora nueva (prev. " + citas.get(citaEditada)[2] + "): ");
+        System.out.printf("Selecciona un veterinario asignado nuevo (prev. %s): ", citas.get(citaEditada)[3]);
+        String vet = inputStringValidado("");
 
-        editarCita(citaEditada, dia, hora);
+        editarCita(citaEditada, dia, hora, vet);
 
         System.out.println("Cita Editada");
 
@@ -397,7 +430,6 @@ public class SosVet {
         boolean activo = true;
 
         while (activo) {
-            int eleccion = 0;
             limpiarPantalla();
 
             System.out.println("----- Registro de Pacientes ------");
@@ -409,7 +441,7 @@ public class SosVet {
             System.out.println("  6) Ordenar por criterio");
             System.out.println("  7) Salir del Registro de Pacientes");
 
-            eleccion = inputIntValidado("Teclea la opción: ", 0, 7);
+            int eleccion = inputIntValidado("Teclea la opción: ", 0, 7);
             limpiarPantalla();
 
             switch (eleccion) {
@@ -450,11 +482,11 @@ public class SosVet {
         }
 
         char eleccion = inputStringValidado("Criterios disponibles para ordenar Edad (E), Nombre (N): ").toLowerCase().charAt(0);
-        switch (eleccion){
+        switch (eleccion) {
             case 'e':
                 char creciente = inputStringValidado("Deseas ordenar de menor a mayor (S/N): ").toLowerCase().charAt(0);
 
-                ordenarPrueba(pacientes, creciente == 's');
+                ordenarBurbuja(pacientes, creciente == 's');
                 presionaContinuar();
                 break;
             case 'n':
@@ -478,7 +510,7 @@ public class SosVet {
         boolean confirmado = false;
 
         while (!confirmado) {
-            char eleccion =  inputStringValidado(
+            char eleccion = inputStringValidado(
                     "Desea eliminar al paciente " + pacientes.get(pacienteEliminar)[1] + "? (S/N) ").toLowerCase()
                     .charAt(0);
             if (eleccion == 'n') return;
@@ -615,27 +647,24 @@ public class SosVet {
     // Termina menú de pacientes
 
     public static void main(String[] args) {
-        agregarPaciente("Pedro", "Max", 123456789, "Labrador", 5, "Perro");
-        agregarPaciente("Juan", "Bella", 987654321, "Siames", 6, "Gato");
-        agregarPaciente("Ricardo", "Rocky", 555555555, "Bulldog", 7, "Perro");
-        agregarPaciente("Rodrigo", "Luna", 123123123, "Persa", 1, "Gato");
-        agregarPaciente("Luna", "Charlie", 999888777, "Golden Retriever", 8, "Perro");
-        agregarPaciente("Juan 2", "Daisy", 111222333, "Maine Coon", 2, "Gato");
-        agregarPaciente("Pedro 2", "Leo", 444555666, "Poodle", 4, "Perro");
-        agregarPaciente("Ángel", "Mia", 777777777, "Ragdoll", 8, "Gato");
-        agregarPaciente("Juan 3", "Coco", 888777666, "Labrador", 6, "Perro");
-        agregarPaciente("Juan 4", "Oreo", 666777888, "Siames", 1, "Gato");
-        for (int i = 0; i < 200; i++) {
-            agregarPaciente("Juan" + (i+1), "Oreo " + (i+1), 666777888 + i, "Siames " + (i + 1), (int)(Math.random() * (20+i) ), "Gato");
-        }
+        String gato = " /\\_/\\ \n( o.o )\n > ^ <";
+
+        // Valores de prueba
+        agregarPaciente("Pedro", "Max", 66_6777_8888L, "Labrador", 5, "Perro");
+        agregarPaciente("Juan", "Bella", 66_6777_8888L, "Siames", 6, "Gato");
+        agregarPaciente("Ricardo", "Rocky", 66_6777_8888L, "Bulldog", 7, "Perro");
+        agregarPaciente("Rodrigo", "Luna", 66_6777_8888L, "Persa", 1, "Gato");
+        agregarPaciente("Luna", "Charlie", 66_6777_8888L, "Golden Retriever", 8, "Perro");
+        agregarPaciente("Juan 2", "Daisy", 66_6777_8888L, "Maine Coon", 2, "Gato");
+        agregarPaciente("Pedro 2", "Leo", 66_6777_8888L, "Poodle", 4, "Perro");
+        agregarPaciente("Ángel", "Mia", 66_6777_8888L, "Ragdoll", 8, "Gato");
+        agregarPaciente("Juan 3", "Coco", 66_6777_8888L, "Labrador", 6, "Perro");
+        agregarPaciente("Juan 4", "Oreo", 66_6777_8888L, "Siames", 1, "Gato");
 
 
         boolean activo = true;
 
         while (activo) {
-
-            int eleccion = 0;
-
             limpiarPantalla();
 
             System.out.println("----- Principal ------");
@@ -643,7 +672,7 @@ public class SosVet {
             System.out.println("  2) Registro de Pacientes");
             System.out.println("  3) Salir");
 
-            eleccion = inputIntValidado("Teclea la opción: ", 1, 3);
+            int eleccion = inputIntValidado("Teclea la opción: ", 1, 3);
             limpiarPantalla();
 
             switch (eleccion) {
@@ -654,7 +683,7 @@ public class SosVet {
                     menuPacientes();
                     break;
                 case 3:
-                    System.out.println("Adios... :(");
+                    System.out.println(gato);
                     activo = false;
                     break;
             }

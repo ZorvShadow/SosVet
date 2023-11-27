@@ -39,6 +39,10 @@ public class SosVet {
      * cada arreglo tendrá un largo de 4, y se guardaran los siguientes datos en
      * orden:
      * {'id paciente' ,'dia', 'hora', 'veterinario asignado'}
+     * 
+     * Para acceder a los elementos dentro del ArrayList, se utiliza el método
+     * arr.get(indice), este metodo te regresa el elemento en la posicion indice
+     * especificada
      */
 
     /**

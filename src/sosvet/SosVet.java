@@ -13,7 +13,7 @@ import java.util.Scanner;
 // Grupo:   3IM7
 public class SosVet {
     /*  Un arraylist es una lista, eso significa que al contrario de los arreglos comunes,
-        es de tamaño de variable.
+        es de tamaño variable.
 
         Es decir, podemos tener un ArrayList con 2434242 elementos o con 2 elementos,
         se pueden agregar, editar y eliminar elementos a conveniencia.

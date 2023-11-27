@@ -8,21 +8,56 @@ import java.util.Scanner;
  * @author García Velasco Rodrigo
  * @author Enríquez Pascual Ángel Gabriel
  * @author Gastélum Sánchez Ricardo
- * @version 0.0.2a
+ * @version 0.0.3
  */
 // Grupo:   3IM7
 public class SosVet {
+    /*  Un arraylist es una lista, eso significa que al contrario de los arreglos comunes,
+        es de tamaño de variable.
+
+        Es decir, podemos tener un ArrayList con 2434242 elementos o con 2 elementos,
+        se pueden agregar, editar y eliminar elementos a conveniencia.
+    */
+
 
     public static ArrayList<String[]> pacientes = new ArrayList<>();
-    // Ejemplo de datos contenidos dentro del Array: {'nombre del cliente', 'nombre
-    // del paciente', 'celular', 'raza', 'edad', 'especie' }
+    /*  Se crea un ArrayList para contener los pacientes, contendrá arreglos de Strings,
+        cada arreglo tendrá un largo de 6, y se guardaran los siguientes datos en orden:
+
+        {'nombre del cliente', 'nombre del paciente', 'celular', 'raza', 'edad', 'especie' }
+    */
+
 
     public static ArrayList<String[]> citas = new ArrayList<>();
-    // Ejemplo de datos contenidos dentro de Array: {'id paciente' ,'dia', 'hora', 'veterinario asignado'}
+    /*  Se crea un ArrayList para contener los pacientes, contendrá arreglos de Strings,
+        cada arreglo tendrá un largo de 4, y se guardaran los siguientes datos en orden:
+        {'id paciente' ,'dia', 'hora', 'veterinario asignado'}
+    */
 
+
+    /**
+     * Imprime una secuencia de caracteres que limpia la pantalla. <br/> <br/>
+     * NOTA: Solamente funciona con terminales que acepten el Código escape ANSI,
+     * de lo contario se imprimira la secuencia sin ningún efecto. <br/>
+     *
+     * <a href="https://en.wikipedia.org/wiki/ANSI_escape_code#CSI_(Control_Sequence_Introducer)_sequences">
+     * Tabla de valores de escape ANSI
+     * </a>
+     */
     public static void limpiarPantalla() {
-        System.out.println("\033[H\033[2J");
-        System.out.flush();
+        String nombreSistemaOperativo = System.getProperty("os.name");
+
+        if (nombreSistemaOperativo.toLowerCase().contains("windows")) {
+            for (int i = 0; i < 100; i++) {
+                System.out.print("\n");
+            }
+        } else {
+            System.out.println("\033[H\033[2J");
+            /*  El primer codigo de escape: [H, mueve el cursor hasta arriba a la izquierda.
+                El segundo, limpia la pantalla entera. */
+            System.out.flush(); //Se limpia el bufer de escritura de la consola.
+        }
+
     }
 
     public static void presionaContinuar() {
@@ -87,11 +122,16 @@ public class SosVet {
         }
 
         ArrayList<String[]> pacientesNuevos = new ArrayList<>();
+        /*  Se crea un nuevo ArrayList con la misma estructura que
+            el original de pacientes para guardar los datos ordenados.
+        */
 
         System.out.printf("%4s %15s %10s \n", "ID", "Paciente", "Edad");
         for (int i = 0; i < edadesOrdenadas.length; i++) {
-            pacientesNuevos.add(i, pacientes.get(edadesOrdenadas[i][0]));
+            pacientesNuevos.add(pacientes.get(edadesOrdenadas[i][0]));
+            // Se añaden los valores ordenados
 
+            // Se imprime la ID original, el nombre y la edad.
             System.out.printf("%4s %15s %10s \n", edadesOrdenadas[i][0], pacientesNuevos.get(i)[1], pacientesNuevos.get(i)[4]);
         }
 
@@ -100,12 +140,11 @@ public class SosVet {
     /**
      * Intercambia dos valores en los indices especificados dentro de arreglos de dos dimensiones
      *
-     * @param index1 El primer elemento a swappear
-     * @param index2 El segundo elemento a swappear
-     * @param arr    El arreglo donde se hará el swapeo
+     * @param index1 El primer elemento a intercambiar
+     * @param index2 El segundo elemento a intercambiar
+     * @param arr    El arreglo donde se hará el intercambio
      * @return Nuevo arreglo con el cambio efectuado
      */
-
     public static int[][] swapIntArrays(int index1, int index2, int[][] arr) {
         int[][] nuevoArr = arr;
 
@@ -256,8 +295,8 @@ public class SosVet {
      * Pide una cadena de texto al usuario y lo repetirá hasta que se introduzca
      * una cadena valida
      *
-     * @param mensaje El mensaje a mostrar sin salto de línea
-     * @return La cadena de texto no vacía
+     * @param mensaje El mensaje a mostrar sin salto de línea.
+     * @return La cadena de texto no vacía.
      */
     public static String inputStringValidado(String mensaje) {
         Scanner scanner = new Scanner(System.in);
@@ -352,7 +391,14 @@ public class SosVet {
         System.out.println("---Proporcione la siguiente información---");
 
         int idPaciente = inputIntValidado("Id del Paciente: ", 0, pacientes.size() - 1);
-        String dia = inputStringValidado("Seleccionar un día disponible (DD/MM): ");
+
+
+        int dia = inputIntValidado("Selecciona un día del mes (DD): ", 1, 31);
+        int mes = inputIntValidado("Selecciona un mes númerico (MM): ", 1, 31);
+        int año = inputIntValidado("Selecciona un año (AAAA) : ", 2023, 3000);
+        String fecha = dia + "/" + mes + "/" + año;
+
+
         String hora = inputStringValidado("Seleccionar una hora (HH:MM): ");
         String vetAsignado = inputStringValidado("Ingresa el veterinario asignado a la cita: ");
 
@@ -360,9 +406,10 @@ public class SosVet {
 
         limpiarPantalla();
 
-        agendarCita(idPaciente, dia, hora, vetAsignado);
+
+        agendarCita(idPaciente, fecha, hora, vetAsignado);
         System.out.printf("%10s %5s %5s\n", "Nombre", "Día", "Hora");
-        System.out.printf("%10s %5s %5s\n", nombrePaciente, dia, hora);
+        System.out.printf("%10s %5s %5s\n", nombrePaciente, fecha, hora);
 
         presionaContinuar();
 
@@ -412,12 +459,18 @@ public class SosVet {
 
         int citaEditada = inputIntValidado("Teclea ID de cita a editar: ", 0, citas.size() - 1);
 
-        String dia = inputStringValidado("Seleccionar un día nuevo (prev. " + citas.get(citaEditada)[1] + "): ");
+        System.out.printf("Selecciona una fecha nueva (previamente: %s):\n", citas.get(citaEditada)[1]);
+
+        int dia = inputIntValidado("Selecciona un día del mes (DD): ", 1, 31);
+        int mes = inputIntValidado("Selecciona un mes númerico (MM): ", 1, 31);
+        int año = inputIntValidado("Selecciona un año (AAAA) : ", 2023, 3000);
+        String fecha = dia + "/" + mes + "/" + año;
+
         String hora = inputStringValidado("Seleccionar una hora nueva (prev. " + citas.get(citaEditada)[2] + "): ");
         System.out.printf("Selecciona un veterinario asignado nuevo (prev. %s): ", citas.get(citaEditada)[3]);
         String vet = inputStringValidado("");
 
-        editarCita(citaEditada, dia, hora, vet);
+        editarCita(citaEditada, fecha, hora, vet);
 
         System.out.println("Cita Editada");
 
@@ -647,7 +700,7 @@ public class SosVet {
     // Termina menú de pacientes
 
     public static void main(String[] args) {
-        String gato = " /\\_/\\ \n( o.o )\n > ^ <";
+
 
         // Valores de prueba
         agregarPaciente("Pedro", "Max", 66_6777_8888L, "Labrador", 5, "Perro");
@@ -683,6 +736,16 @@ public class SosVet {
                     menuPacientes();
                     break;
                 case 3:
+                    String gato = "\u001B[101m \u001B[96m";
+                    //Codigos de escape para poner el fondo en rojo brillante y las letras en cian
+                    for (int i = 0; i < 50; i++) {
+                        // Agregamos 400 lineas blancas con el fondo para que se vea el fondo.
+                        gato += "\n";
+                    }
+                    gato += " /\\_/\\ \n( o.o )\n > ^ < \u001B[0m\u001B[0m";
+                    // Contiene los codigos de escape para resetearlo.
+                    // Fuente: https://en.wikipedia.org/wiki/ANSI_escape_code#3-bit_and_4-bit
+
                     System.out.println(gato);
                     activo = false;
                     break;

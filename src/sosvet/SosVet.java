@@ -36,9 +36,9 @@ public class SosVet {
 
 
     /**
-     * Imprime una secuencia de caracteres que limpia la pantalla. <br/> <br/>
+     * Imprime una secuencia de caracteres que limpia la pantalla. <br> <br>
      * NOTA: Solamente funciona con terminales que acepten el Código escape ANSI,
-     * de lo contario se imprimira la secuencia sin ningún efecto. <br/>
+     * de lo contario se imprimira la secuencia sin ningún efecto. <br>
      *
      * <a href="https://en.wikipedia.org/wiki/ANSI_escape_code#CSI_(Control_Sequence_Introducer)_sequences">
      * Tabla de valores de escape ANSI
@@ -193,6 +193,7 @@ public class SosVet {
      * @param celular  Número celular del cliente
      * @param raza     Raza de la mascota
      * @param edad     Edad de la mascota
+     * @param especie  La especie de la mascota.
      */
     public static void agregarPaciente(String cliente, String paciente, long celular, String raza, int edad, String especie) {
         String edadStr = "" + edad; // Se concatena una string vacia para que se convierta a string

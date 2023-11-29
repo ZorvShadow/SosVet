@@ -57,21 +57,13 @@ public class SosVet {
      * </a>
      */
     public static void limpiarPantalla() {
-        String nombreSistemaOperativo = System.getProperty("os.name");
+        System.out.println("\033[H\033[2J");
+        /*
+         * El primer codigo de escape: [H, mueve el cursor hasta arriba a la izquierda.
+         * El segundo, limpia la pantalla entera.
+         */
 
-        if (false) {
-            for (int i = 0; i < 100; i++) {
-                System.out.print("\n");
-            }
-        } else {
-            System.out.println("\033[H\033[2J");
-            /*
-             * El primer codigo de escape: [H, mueve el cursor hasta arriba a la izquierda.
-             * El segundo, limpia la pantalla entera.
-             */
-
-            System.out.flush(); // Se limpia el bufer de escritura de la consola.
-        }
+        System.out.flush(); // Se limpia el bufer de escritura de la consola.
 
     }
 

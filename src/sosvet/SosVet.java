@@ -59,7 +59,7 @@ public class SosVet {
     public static void limpiarPantalla() {
         String nombreSistemaOperativo = System.getProperty("os.name");
 
-        if (nombreSistemaOperativo.toLowerCase().contains("windows")) {
+        if (false) {
             for (int i = 0; i < 100; i++) {
                 System.out.print("\n");
             }

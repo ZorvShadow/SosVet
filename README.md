@@ -32,9 +32,9 @@ entorno de desarrollo.
 ## Contribuidores
 
 - [García Espino Enrique Román](https://quiqueso.com)
-- García Velasco Rodrigo
+- [García Velasco Rodrigo](https://github.com/Rodriguinn)
 - Enríquez Pascual Ángel Gabriel
-- Gastélum Sánchez Ricardo
+- [Gastélum Sánchez Ricardo](https://github.com/01Richyy)
 
 ## Versiones
 

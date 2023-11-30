@@ -34,7 +34,7 @@ public class SosVet {
 
     public static ArrayList<String[]> citas = new ArrayList<>();
     /*
-     * Se crea un ArrayList para contener los pacientes, contendrá arreglos de
+     * Se crea un ArrayList para contener las citas, contendrá arreglos de
      * Strings,
      * cada arreglo tendrá un largo de 4, y se guardaran los siguientes datos en
      * orden:

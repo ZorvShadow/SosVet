@@ -146,8 +146,8 @@ public class SosVet {
             // Se añaden los valores ordenados
 
             // Se imprime la ID original, el nombre y la edad.
-            System.out.printf("%4s %15s %10s \n", edadesOrdenadas[i][0], pacientesNuevos[1],
-                    pacientesNuevos[4]);
+            System.out.printf("%4s %15s %10s \n", edadesOrdenadas[i][0], pacientesNuevos[i][1],
+                    pacientesNuevos[i][4]);
         }
 
     }
@@ -561,19 +561,18 @@ public class SosVet {
             return;
         }
 
-        char eleccion = inputStringValidado("Criterios disponibles para ordenar Edad (E), Nombre (N): ").toLowerCase()
+        char eleccion = inputStringValidado("Criterios disponibles para ordenar Edad (E): ").toLowerCase()
                 .charAt(0);
-        switch (eleccion) {
-            case 'e':
-                char creciente = inputStringValidado("Deseas ordenar de menor a mayor (S/N): ").toLowerCase().charAt(0);
+        if (eleccion == 'e') {
+            char creciente = inputStringValidado("Deseas ordenar de menor a mayor (S/N): ").toLowerCase().charAt(0);
 
-                ordenarBurbuja(pacientes, creciente == 's');
-                presionaContinuar();
-                break;
-            case 'n':
-                System.out.println("Aún no está implementado :(");
-                break;
+            ordenarBurbuja(pacientes, creciente == 's');
+            presionaContinuar();
+        } else {
+            System.out.println("Nonoonoonon q haces ");
+            presionaContinuar();
         }
+
     }
 
     public static void eliminarPacientesMenu() {

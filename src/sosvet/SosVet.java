@@ -489,7 +489,7 @@ public class SosVet {
         String fecha = dia + "/" + mes + "/" + año;
 
         System.out.println("Seleccionar una hora nueva (prev. " + citas.get(citaEditada)[2] + "): ");
-        int hora = inputIntValidado("Ingresa la hora en formato de 24 horas (HH): ", 0, 24);
+        int hora = inputIntValidado("Ingresa la hora en formato de 24 horas (HH): ", 0, 23);
         int minutos = inputIntValidado("Ingresa los minutos (MM): ", 0, 59);
 
         String horaString = hora + ":" + minutos;
